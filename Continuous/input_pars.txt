@@ -1,0 +1,43 @@
+########################################################
+#                                                      #
+#   Interactive Thermoluminescence Glow Curve Fitter   #
+#      Continuous Density of States (3 Gaussians)      # 
+#                  V2.0 - 16.04.2024                   #
+#            Duarte Esteves (IST/INESC MN)             #
+#                                                      #
+########################################################
+
+# Input file for thermoluminescence fitter with a continuous density of states (3 gaussians)
+# To run: FitterDOS.exe input_file.txt
+# The input style is: parameter [tab] initial_value [tab] minimum_value [tab] maximum_value [tab] vary?
+# The units are K, s and eV
+# The order is arbitary and white lines are ignored
+# Unchanged parameters do not require minimum/maximum/vary
+# Need to also include the data file, in the format temperature/ºC [space] intensity
+# Comment lines start with #
+
+data	example.dat
+ramp	2.
+T0	300.
+Tmax	650.
+N	100
+Emin	0.7
+Emax	1.2
+
+S	6.e9	5.5e9	6.5e9	False
+
+A	0.00802255	0.	200	False
+B	2.85002375	0.	20.	False
+C	0.01088797	1.e-5	1.e-1	False
+
+n01	1.1150e+08	0.	1.e9	True
+Emed1	0.82269516	0.7	1.2	True
+Evar1	0.04045697	0.	.2	True
+
+n02	1.5504e+08	0.	1.e9	True
+Emed2	0.91905149	0.7	1.2	True
+Evar2	0.06747116	0.	.2	True
+
+n03	6.8090e+07	0.	1.e9	True
+Emed3	1.01444373	0.7	1.2	True
+Evar3	0.09180615	0.	.2	True

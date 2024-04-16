@@ -1,0 +1,42 @@
+########################################################
+#                                                      #
+#   Interactive Thermoluminescence Glow Curve Fitter   #
+#              Discrete Density of States              # 
+#                  V2.1 - 16.04.2024                   #
+#            Duarte Esteves (IST/INESC MN)             #
+#                                                      #
+########################################################
+
+# Input file for thermoluminescence fitter with N discrete states 
+# To run: python Fitter_Discrete.py input_file.txt
+# The input style is: parameter [tab] initial_value [tab] minimum_value [tab] maximum_value [tab] vary?
+# The units are K, s and eV
+# The order is arbitary and white lines are ignored
+# Unchanged parameters do not require minimum/maximum/vary
+# Need to also include the data file, in the format temperature/ºC [tab] intensity
+# Comment lines start with #
+
+data	example.dat
+ramp	1.
+T0	300.
+Tmax	650.
+N	3
+
+A	0.	-0.1	200	False
+B	0.	-0.1	20.	False
+C	0.01088797	1.e-5	1.e-1	False
+
+S1	6.e9	5.5e9	6.5e9	True
+n01	2249248.7592850695	0.	1.e7	True
+E1	0.84	0.7	1.2	True
+b1	1.1	1.0001	2.5	True
+
+S2	6.e9	5.5e9	6.5e9	True
+n02	2249248.7592850695	0.	1.e7	True
+E2	0.84	0.7	1.2	True
+b2	1.1	1.0001	2.5	True
+
+S3	6.e9	5.5e9	6.5e9	True
+n03	2249248.7592850695	0.	1.e7	True
+E3	0.84	0.7	1.2	True
+b3	1.1	1.0001	2.5	True
