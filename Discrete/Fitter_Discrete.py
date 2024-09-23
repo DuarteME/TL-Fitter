@@ -79,7 +79,7 @@ for i in range(Npars):
     params.add(dfPars['Name'][i], value=float(dfPars['Init'][i]), min=float(dfPars['Min'][i]), max=float(dfPars['Max'][i]), vary=True)
 
 # Read data file
-df = pd.read_csv(file_name, sep='\t', comment='#', header=None, names=['Temperature','Intensity'], dtype='float')
+df = pd.read_csv(file_name, sep=' ', comment='#', header=None, names=['Temperature','Intensity'], dtype='float')
 #print(df)
 
 for i in range(len(df)):
