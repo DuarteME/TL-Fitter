@@ -30,7 +30,7 @@ def fitting(params, x):
         if params[f'b{i}'] != 1:
             model += params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*pow(1 + (params[f'b{i}']-1)*params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']), params[f'b{i}']/(1-params[f'b{i}']))/params['ramp']
         else:
-            model += params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*np.exp(-params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']))/params['ramp'] #O caso b=1 so esta definido no limite b->1, porque b=1 da divisoes por 0
+            model += params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*np.exp(-params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']))/params['ramp'] #b=1 leads to a 0/0 indeterminate form
     return model
     
 
@@ -86,6 +86,7 @@ for i in range(len(df)):
     df['Temperature'][i] += 273.
     if df['Temperature'][i] > params['Tmax'].value:
         df = df.drop(i)
+#print(df)
 
 sns.reset_defaults()
 
@@ -185,11 +186,11 @@ def fit(event):
         parOut.write(f'FOM\t{FigMerit}\n')
 
     # Fit result
-    final = fitting(result.params, df['Temperature'])
+    final = fitting(result.params, df['Temperature'].to_numpy())
 
     with open(outputFit, "w") as fitOut:
         for i in range(len(df)):
-            fitOut.write(f"{df['Temperature'][i]}\t{final[i]}\n")
+            fitOut.write(f"{df['Temperature'].to_numpy()[i]}\t{final[i]}\n")
     
     
     plot.set_visible(False)
@@ -215,7 +216,7 @@ save_but = Button(saveax, 'Save data')
 def save(event):
     with open(outputSim, "w") as simOut:
         for i in range(len(df)):
-            simOut.write(f"{df['Temperature'][i]}\t{fitting(params, df['Temperature'])[i]}\n")
+            simOut.write(f"{df['Temperature'].to_numpy()[i]}\t{fitting(params, df['Temperature'].to_numpy())[i]}\n")
 
 # Associate the save function with the save button
 save_but.on_clicked(save)

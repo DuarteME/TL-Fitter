@@ -5,4 +5,4 @@ The goal of this simple Python script is to read a raw data file (with the tempe
 
 The input file specifies the mandatory or optional inputs.
 
-The file 'example.dat' contains experimental data that is used as an example for the script.
+The file 'example.dat' contains experimental data that is used as an example for the script. The file 'example_Output_sim.txt' gives the curve obtained manually as a first guess, while 'example_Output_fit.txt' shows the best curve obtained by fitting. The corresponding parameters are printed to 'example_Output_par.txt'.

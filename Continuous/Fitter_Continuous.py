@@ -22,7 +22,7 @@ def int_exp(x, T0, E):
 
 # Fitting function
 def fitting(params, x):
-    model = params['A'] + params['B']*np.exp(params['C']*np.array(x))
+    model = 0
 
     En = params['Emin'].value
     dE = (params['Emax'].value-params['Emin'].value)/params['N'].value
@@ -34,8 +34,12 @@ def fitting(params, x):
 
         model += params['S']*dos*np.exp(-En/(kB*np.array(x)))*np.exp(-params['S']/params['ramp']*kB*np.array(x)*np.array(x)/En * np.exp(-En/(kB*np.array(x))) * (1-2*kB*np.array(x)/En))/params['ramp']
         En += dE
+
+    model *= dE
+
+    model += params['A'] + params['B']*np.exp(params['C']*np.array(x)) #background
              
-    return dE*model
+    return model
     
 
 # Objective function to be minimised (FOM)
@@ -189,11 +193,11 @@ def fit(event):
         parOut.write(f'FOM\t{FigMerit}\n')
 
     # Fit result
-    final = fitting(result.params, df['Temperature'])
+    final = fitting(result.params, df['Temperature'].to_numpy())
 
     with open(outputFit, "w") as fitOut:
         for i in range(len(df)):
-            fitOut.write(f"{df['Temperature'][i]}\t{final[i]}\n")
+            fitOut.write(f"{df['Temperature'].to_numpy()[i]}\t{final[i]}\n")
     
     
     plot.set_visible(False)
@@ -219,7 +223,7 @@ save_but = Button(saveax, 'Save data')
 def save(event):
     with open(outputSim, "w") as simOut:
         for i in range(len(df)):
-            simOut.write(f"{df['Temperature'][i]}\t{fitting(params, df['Temperature'])[i]}\n")
+            simOut.write(f"{df['Temperature'].to_numpy()[i]}\t{fitting(params, df['Temperature'].to_numpy())[i]}\n")
 
 # Associate the save function with the save button
 save_but.on_clicked(save)

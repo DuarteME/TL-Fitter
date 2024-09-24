@@ -19,7 +19,7 @@
 data	example.dat
 ramp	1.
 T0	300.
-Tmax	650.
+Tmax	600.
 N	3
 
 A	0.	-0.1	200	False
