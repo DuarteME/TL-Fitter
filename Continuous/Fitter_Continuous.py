@@ -10,7 +10,6 @@ import scipy as sp
 from scipy.integrate import quad
 from scipy.signal import savgol_filter
 from lmfit import Minimizer, Parameters, report_fit
-import win32api
 
 
 # Boltzmann constant in eV/K
@@ -230,6 +229,6 @@ save_but.on_clicked(save)
 
 # Starts the program with the window already maximised
 figManager = plt.get_current_fig_manager()
-figManager.window.state('zoomed')
+figManager.window.showMaximized()
 
 plt.show()
