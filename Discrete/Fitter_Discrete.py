@@ -27,9 +27,9 @@ def fitting(params, x):
 
     for i in range(1, N+1):
         if params[f'b{i}'] != 1:
-            model += params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*pow(1 + (params[f'b{i}']-1)*params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']), params[f'b{i}']/(1-params[f'b{i}']))/params['ramp']
+            model += np.nan_to_num(params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*np.power(1. + (params[f'b{i}']-1.)*params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']), params[f'b{i}']/(1.-params[f'b{i}']))/params['ramp'], nan=0., posinf=0., neginf=0.)
         else:
-            model += params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*np.exp(-params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']))/params['ramp'] #b=1 leads to a 0/0 indeterminate form
+            model += np.nan_to_num(params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*np.exp(-params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']))/params['ramp'], nan=0., posinf=0., neginf=0.) #b=1 leads to a 0/0 indeterminate form
     return model
     
 
@@ -78,7 +78,7 @@ for i in range(Npars):
     params.add(dfPars['Name'][i], value=float(dfPars['Init'][i]), min=float(dfPars['Min'][i]), max=float(dfPars['Max'][i]), vary=True)
 
 # Read data file
-df = pd.read_csv(file_name, sep=' ', comment='#', header=None, names=['Temperature','Intensity'], dtype='float')
+df = pd.read_csv(file_name, sep='\t', comment='#', header=None, names=['Temperature','Intensity'], dtype='float')
 #print(df)
 
 for i in range(len(df)):
@@ -168,7 +168,7 @@ fit_but = Button(fitax, 'Fit')
 
 def fit(event):
     # Minimise
-    minner = Minimizer(residual, params, fcn_args=(df['Temperature'], df['Intensity']),  nan_policy='raise')
+    minner = Minimizer(residual, params, fcn_args=(df['Temperature'].to_numpy(), df['Intensity'].to_numpy()),  nan_policy='raise')
     result = minner.minimize()
 
     # Write error report to cmd
