@@ -27,7 +27,7 @@ def fitting(params, x):
 
     for i in range(1, N+1):
         if params[f'b{i}'] != 1:
-            model += np.nan_to_num(params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*np.power(1. + (params[f'b{i}']-1.)*params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']), params[f'b{i}']/(1.-params[f'b{i}']))/params['ramp'], nan=0., posinf=0., neginf=0.)
+            model += np.nan_to_num(params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*np.power(abs(1. + (params[f'b{i}']-1.)*params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}'])), params[f'b{i}']/(1.-params[f'b{i}']))/params['ramp'], nan=0., posinf=0., neginf=0.)
         else:
             model += np.nan_to_num(params[f'S{i}']*params[f'n0{i}']*np.exp(-params[f'E{i}']/(kB*np.array(x)))*np.exp(-params[f'S{i}']/params['ramp'] * int_exp(np.array(x), params['T0'], params[f'E{i}']))/params['ramp'], nan=0., posinf=0., neginf=0.) #b=1 leads to a 0/0 indeterminate form
     return model
@@ -148,7 +148,7 @@ def reset(event):
     plot.set_visible(True)
     Nlines = len(ax.lines) 
     for i in range(2, Nlines):
-        ax.lines.pop(i)
+        ax.lines[i].remove()
 
     plot.set_label(f'Simulation       FOM: {FOM(params, df):.3f}%')
 

@@ -155,7 +155,7 @@ def reset(event):
     plot.set_visible(True)
     Nlines = len(ax.lines) 
     for i in range(2, Nlines):
-        ax.lines.pop(i)
+        ax.lines[i].remove()
 
     plot.set_label(f'Simulation       FOM: {FOM(params, df):.3f}%')
 
