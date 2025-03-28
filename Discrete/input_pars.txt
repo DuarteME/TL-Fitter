@@ -17,6 +17,7 @@
 # Comment lines start with #
 
 data	example.dat
+stop	1000
 ramp	1.
 T0	300.
 Tmax	600.

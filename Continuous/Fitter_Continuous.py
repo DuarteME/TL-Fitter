@@ -86,8 +86,10 @@ for i in range(Npars):
     params.add(dfPars['Name'][i], value=float(dfPars['Init'][i]), min=float(dfPars['Min'][i]), max=float(dfPars['Max'][i]), vary=True)
 
 # Read data file
-df = pd.read_csv(file_name, sep=' ', comment='#', header=None, names=['Temperature','Intensity'], dtype='float')
+df = pd.read_csv(file_name, sep='\t', comment='#', header=None, names=['Temperature','Intensity'], dtype='float')
 #print(df)
+
+maxIter = int(dfEmpty[dfEmpty['Name'] == 'stop']['Init'])
 
 for i in range(len(df)):
     df['Temperature'][i] += 273.
@@ -175,7 +177,7 @@ fit_but = Button(fitax, 'Fit')
 
 def fit(event):
     # Minimise
-    minner = Minimizer(residual, params, fcn_args=(df['Temperature'], df['Intensity']),  nan_policy='raise')
+    minner = Minimizer(residual, params, fcn_args=(df['Temperature'].to_numpy(), df['Intensity'].to_numpy()),  nan_policy='raise', max_nfev=maxIter)
     result = minner.minimize()
 
     # Write error report to cmd

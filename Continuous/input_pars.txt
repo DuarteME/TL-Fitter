@@ -13,11 +13,12 @@
 # The units are K, s and eV
 # The order is arbitary and white lines are ignored
 # Unchanged parameters do not require minimum/maximum/vary
-# Need to also include the data file, in the format temperature/ºC [space] intensity
+# Need to also include the data file, in the format temperature/ºC [tab] intensity
 # Comment lines start with #
 
 data	example.dat
 ramp	2.
+stop	1000
 T0	300.
 Tmax	650.
 N	100
